@@ -516,6 +516,24 @@ local function CreateRadioButtons(self, reference, parent, numberOfButtons, defa
 	return radioButtonSet
 end
 
+local function CreateEasyEditBox(self, reference, parent, label, value)
+	local editbox = CreateFrame("EditBox", reference, parent, "InputBoxTemplate")
+	editbox:SetWidth(124)
+	editbox:SetHeight(25)
+	editbox:SetAutoFocus(false)
+	editbox:SetFont(NeatPlatesLocalizedInputFont or "Fonts\\FRIZQT__.TTF", 11, "NONE")
+	editbox:SetFrameStrata("DIALOG")
+	editbox:SetText(tostring(value))
+
+	editbox.Label = editbox:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+	editbox.Label:SetPoint("LEFT", editbox, "RIGHT", 0, 0)
+	editbox.Label:SetWidth(170)
+	editbox.Label:SetJustifyH("LEFT")
+	editbox.Label:SetText(label)
+
+	return editbox
+end
+
 --local function CreateSliderFrame(self, reference, parent, label, val, minval, maxval, step, mode)
 --	local slider = CreateFrame("Slider", reference, parent, 'OptionsSliderTemplate')
 --	slider:SetWidth(100)
@@ -1000,6 +1018,7 @@ PanelHelpers.CreatePanelFrame = CreatePanelFrame
 PanelHelpers.CreateDescriptionFrame = CreateDescriptionFrame
 PanelHelpers.CreateCheckButton = CreateCheckButton
 PanelHelpers.CreateRadioButtons = CreateRadioButtons
+PanelHelpers.CreateEasyEditBox = CreateEasyEditBox
 PanelHelpers.CreateSliderFrame = CreateSliderFrame
 PanelHelpers.CreateDropdownFrame = CreateDropdownFrame
 PanelHelpers.CreateColorBox = CreateColorBox

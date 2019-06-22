@@ -58,6 +58,12 @@ local function ReplaceColorPatterns(text)
 	return text
 end
 
+-- Use this for future theme customization
+-- NeatPlates.GetTheme().Default
+-- NeatPlates.GetTheme().NameOnly
+-- NeatPlates.GetTheme().WidgetConfig
+
+
 -------------------------------------------------------------------------------------
 --  Default Options
 -------------------------------------------------------------------------------------
@@ -798,6 +804,80 @@ local function BuildInterfacePanel(panel)
 	ResetButton:SetWidth(155)
 	ResetButton:SetText(L["Reset Configuration"])
 
+	local ThemeCustomization = CreateFrame("Button", "NeatPlatesOptions_ThemeCustomization", panel, "NeatPlatesPanelButtonTemplate")
+	ThemeCustomization:SetPoint("TOPLEFT", ResetButton, "BOTTOMLEFT", 0, -10)
+	ThemeCustomization:SetWidth(155)
+	ThemeCustomization:SetText(L["Theme Customization"])
+	ThemeCustomization:SetScript("OnMouseUp", function(self)
+		--	-- Theme Customization
+		--panel.CustomizationLabel = panel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+		--panel.CustomizationLabel:SetFont(font, 22)
+		--panel.CustomizationLabel:SetText("Theme Customization")
+		--panel.CustomizationLabel:SetPoint("TOPLEFT", ResetButton, "BOTTOMLEFT", 0, -20)
+		--panel.CustomizationLabel:SetTextColor(255/255, 105/255, 6/255)
+
+		local sections = {
+			["Default"] = NeatPlates.GetTheme().Default,
+			["NameOnly"] = NeatPlates.GetTheme().NameOnly,
+			["WidgetConfig"] = NeatPlates.GetTheme().WidgetConfig
+		}
+		----local Default = NeatPlates.GetTheme().Default
+		----local NameOnly = NeatPlates.GetTheme().NameOnly
+		----local WidgetConfig = NeatPlates.GetTheme().WidgetConfig
+		--local F = panel.CustomizationLabel
+		--for sName,sVal in pairs(sections) do
+		--	panel[sName] = panel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+		--	panel[sName]:SetFont(font, 22)
+		--	panel[sName]:SetText(sName)
+		--	panel[sName]:SetPoint("TOPLEFT", F, "BOTTOMLEFT", 0, -20)
+		--	panel[sName]:SetTextColor(255/255, 105/255, 6/255)
+		--	F = panel[sName]
+		--	local firstTable = true
+		--	for k,v in pairs(sVal) do
+		--		if type(v) == "table" then
+		--			local indent = 8
+		--			panel[k] = panel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+		--			if firstTable then
+		--				panel[k]:SetPoint("TOPLEFT", F, "BOTTOMLEFT", 8, 0)
+		--				firstTable = false
+		--			else
+		--				panel[k]:SetPoint("TOPLEFT", F, "BOTTOMLEFT", -8, 0)
+		--			end
+					
+		--			panel[k]:SetWidth(170)
+		--			panel[k]:SetJustifyH("LEFT")
+		--			panel[k]:SetText(k)
+
+		--			F = panel[k]
+		--			for k1,v1 in pairs(v) do
+		--				panel[k][k1] = PanelHelpers:CreateEasyEditBox("NeatPlatesOptions_"..k..k1, panel, k1, v1)
+		--				panel[k][k1]:SetPoint("TOPLEFT", F, "BOTTOMLEFT", indent, 2)
+		--				F = panel[k][k1]
+		--				indent = math.max(0, indent-8)
+		--			end
+		--		end
+		--	end
+		--end
+
+		function dump(o, ind)
+			ind = ind or "  "
+			if type(o) == 'table' then
+				local s = '{\n'
+			  for k,v in pairs(o) do
+			  	if type(k) ~= 'number' then k = '"'..k..'"' end
+			  	s = s .. ind..'['..k..'] = ' .. dump(v, ind.."  ") .. ',\n'
+			  end
+			  return s .. '}'
+			else
+			  return tostring(o)
+			end
+		end
+
+		panel.ThemeCustomEditBox = PanelHelpers:CreateEditBox("NeatPlatesOptions_ThemeCustomEditBox", 500, 400, panel, "TOPLEFT", ThemeCustomization, "BOTTOMLEFT", -2, -12)
+		--panel.ThemeCustomEditBox:SetWidth(800)
+		panel.ThemeCustomEditBox.EditBox:SetText("--Default Plates\n"..dump(sections.Default).."\n\nWidgets\n"..dump(sections.WidgetConfig).."\n\n--Headline View\n"..dump(sections.NameOnly))
+		PanelHelpers.CreateEditBoxButton(panel.ThemeCustomEditBox, function() OnOkay(_panel) end)
+	end)
 
 	-- Update Functions
 	_panel.okay = OnOkay

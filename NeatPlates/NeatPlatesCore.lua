@@ -82,7 +82,6 @@ local OnShowNameplate, OnHideNameplate, OnUpdateNameplate, OnResetNameplate
 local OnHealthUpdate, UpdateUnitCondition
 local UpdateUnitContext, OnRequestWidgetUpdate, OnRequestDelegateUpdate
 local UpdateUnitIdentity
-local OnNewNameplate
 
 -- Main Loop
 local OnUpdate
