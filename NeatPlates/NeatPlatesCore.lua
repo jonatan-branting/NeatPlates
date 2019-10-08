@@ -218,18 +218,16 @@ local function toggleNeatPlatesTarget(show, ...)
 
 	-- Create a new target frame if needed
 	if not NeatPlatesTarget then
-		NeatPlatesTarget = NeatPlatesUtility:CreateTargetFrame()
-		OnNewNameplate(NeatPlatesTarget)
+	    NeatPlatesTarget = NeatPlatesUtility:CreateTargetFrame()
+	    OnNewNameplate(NeatPlatesTarget)
 	end
 
-	local _,_,_,x,y = ...
-	local target = UnitExists("target")
+	local mouseover = UnitExists("mouseover")
 
-	if not show or friendlyPlates or enemyPlates then OnHideNameplate(NeatPlatesTarget, "target"); return end
-	if target then
-		OnShowNameplate(NeatPlatesTarget, "target")
-		if not x then x, y = GetCursorPosition() end
-		NeatPlatesTarget:SetPoint("CENTER", UIParent, "BOTTOMLEFT", x, y+20)
+	if not show or friendlyPlates or enemyPlates or not mouseover then 
+	    OnHideNameplate(NeatPlatesTarget, "mouseover"); 
+	else if mouseover then
+	    OnShowNameplate(NeatPlatesTarget, "mouseover")
 	end
 end
 

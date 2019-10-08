@@ -1146,6 +1146,13 @@ local function CreateTargetFrame()
 	NeatPlatesTarget:SetWidth(200)
 	NeatPlatesTarget:SetHeight(200)
 	NeatPlatesTarget:SetClampedToScreen(true)
+
+	-- Follow cursor!
+	NeatPlatesTarget:HookScript("OnUpdate", function()
+	    x, y = GetCursorPosition()
+	    NeatPlatesTarget:SetPoint("CENTER", UIParent, "BOTTOMLEFT", x, y+20)
+	end)
+
 	return frame
 end
 
